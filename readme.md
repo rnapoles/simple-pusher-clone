@@ -28,6 +28,17 @@ Install dependencies:
 go mod tidy
 ```
 
+## Configuration
+Create a `.env` file in the root directory and define the following environment variables:
+
+```ini
+PORT=9002
+LISTEN=127.0.0.1
+```
+
+- `PORT`: The port on which the server will listen.
+- `LISTEN`: The IP address the server will bind to (use `0.0.0.0` to accept connections from all network interfaces).
+
 ## Usage
 
 Run the server:
