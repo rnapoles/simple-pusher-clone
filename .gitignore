@@ -1,0 +1,12 @@
+/.phpunit.cache
+/vendor
+.env.backup
+.env.dev
+.env.prod
+.env.development
+.env.production
+.phpunit.result.cache
+/.fleet
+/.idea
+/.vscode
+/mv

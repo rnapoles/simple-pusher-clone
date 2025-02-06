@@ -1,0 +1,32 @@
+# Stage 1: Build the Go binary
+FROM golang:1.23-alpine AS builder
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the go.mod and go.sum files first to cache dependencies
+#COPY main.go go.mod ./
+#COPY ./static ./static
+COPY . ./
+
+# Download and cache dependencies
+#RUN go mod download
+RUN go mod tidy
+
+# Build the Go binary for Linux
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /simple-pusher-clone
+
+# Stage 2: Run the Go binary in a lightweight image
+FROM alpine:latest
+
+# Copy the Go binary from the builder stage
+COPY --from=builder /app/static ./app/static
+COPY --from=builder /simple-pusher-clone ./app/
+COPY .env ./app/
+
+# Expose the port where your app will run (adjust this if needed)
+#EXPOSE 8080
+
+# Run the Go application
+CMD ["./simple-pusher-clone"]
+#ENTRYPOINT ["/bin/sh","-c","sleep infinity"]
